@@ -32,7 +32,7 @@ const userInputLogin = prompt('логин ?');
 
 console.log('userInputLogin: ', userInputLogin);
 
-if(userInputLogin === null) {
+if(!userInputLogin) {
 
     alert(removal);
 
@@ -44,7 +44,7 @@ if(userInputLogin === null) {
 
     const userInputPassword = prompt('пароль ?');
    
-    if(userInputPassword === null) {
+    if(!userInputPassword) {
        
         alert(removal);
 
