@@ -3,23 +3,23 @@ class Hamburger {
   constructor(size, stuffing) {
     this.size = size;
     this.stuffing = stuffing
-    this.topping = [];
+    this.toppings = [];
   }
 
   addTopping(topping) {
-      this.topping.push(topping);
+      this.toppings.push(topping);
   }
 
   removeTopping(topping) {
-    const index = this.topping.indexOf(topping);  
+    const index = this.toppings.indexOf(topping);  
 
     if(index >= 0) {
-      this.topping.splice(index, 1);
+      this.toppings.splice(index, 1);
     }
   }
 
   getToppings() {
-    return this.topping;
+    return this.toppings;
   }
 
   getSize() {
@@ -31,15 +31,12 @@ class Hamburger {
   }
 
   calculatePrice() {
-    // return this.SIZES[this.size].price;
-    return this.SIZE_LARGE;
+    return this.SIZES;
   }
   
   calculateCalories() {
 
   }
-  
-
 }
 
 Hamburger.SIZE_SMALL = 'SIZE_SMALL';
@@ -92,10 +89,4 @@ Hamburger.TOPPINGS = {
 
 const hamburger = new Hamburger(Hamburger.SIZE_SMALL, Hamburger.STUFFING_CHEESE);
 
-// console.log(Hamburger.SIZES);
-// console.log(hamburger.calculatePrice());
-// console.log(Hamburger.SIZES['SIZE_SMALL'].price);
-
-// console.log('calculatePrice: ', hamburger.calculatePrice());
-// console.log('size: ', hamburger.size);
-// console.log('hamburger: ', hamburger.getStuffing());
+console.log(hamburger.calculatePrice());
