@@ -1,3 +1,5 @@
+'use strict';
+
 class Hamburger {
   
   constructor(size, stuffing) {
@@ -40,11 +42,18 @@ class Hamburger {
       return acc + Hamburger.TOPPINGS[topping].price;
     }, 0)
 
-    return sumT;
+    return sumPS + sumT;
   }
   
   calculateCalories() {
+    const sumPS = Hamburger.SIZES[this.size].calories +
+                  Hamburger.STUFFINGS[this.stuffing].calories;
+    
+    const sumT = this.toppings.reduce((acc, topping) => {
+      return acc + Hamburger.TOPPINGS[topping].calories;
+    }, 0)
 
+    return sumPS + sumT;
   }
 }
 
@@ -96,14 +105,33 @@ Hamburger.TOPPINGS = {
 
 };
 
-const hamburger = new Hamburger(Hamburger.SIZE_SMALL, Hamburger.STUFFING_CHEESE);
+/* Вот как может выглядеть использование этого класса */
+  
+  // Маленький гамбургер с начинкой из сыра
+  const hamburger = new Hamburger(Hamburger.SIZE_SMALL, Hamburger.STUFFING_CHEESE);
+  
+  // Добавка из приправы
+  hamburger.addTopping(Hamburger.TOPPING_SPICE);
+  
+  // Спросим сколько там калорий
+  console.log("Calories: ", hamburger.calculateCalories());
+  
+  // Сколько стоит?
+  console.log("Price: ", hamburger.calculatePrice());
+  
+  // Я тут передумал и решил добавить еще соус
+  hamburger.addTopping(Hamburger.TOPPING_SAUCE);
+  
+  // А сколько теперь стоит? 
+  console.log("Price with sauce: ", hamburger.calculatePrice());
+  
+  // Проверить, большой ли гамбургер? 
+  console.log("Is hamburger large: ", hamburger.getSize === Hamburger.SIZE_LARGE); // -> false
+  
+  // Убрать добавку
+  hamburger.removeTopping(Hamburger.TOPPING_SPICE);
+  
+  // Смотрим сколько добавок
+  console.log("Hamburger has %d toppings", hamburger.getToppings().length); // 1
 
-// Добавка из приправы
-hamburger.addTopping(Hamburger.TOPPING_SPICE);
-hamburger.addTopping(Hamburger.TOPPING_SPICE);
-hamburger.addTopping(Hamburger.TOPPING_SPICE);
-
-
-console.log('hamburger.calculatePrice(): ', hamburger.calculatePrice());
-
-console.log('hamburger.getToppings(): ', hamburger.getToppings());
+  console.log("Price: ", hamburger.calculatePrice());
