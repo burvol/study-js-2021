@@ -7,7 +7,9 @@ class Hamburger {
   }
 
   addTopping(topping) {
-      this.toppings.push(topping);
+      if(!this.toppings.includes(topping)) {
+        return this.toppings.push(topping);
+      }
   }
 
   removeTopping(topping) {
@@ -99,6 +101,8 @@ const hamburger = new Hamburger(Hamburger.SIZE_SMALL, Hamburger.STUFFING_CHEESE)
 // Добавка из приправы
 hamburger.addTopping(Hamburger.TOPPING_SPICE);
 hamburger.addTopping(Hamburger.TOPPING_SPICE);
+hamburger.addTopping(Hamburger.TOPPING_SPICE);
+
 
 console.log('hamburger.calculatePrice(): ', hamburger.calculatePrice());
 
