@@ -98,3 +98,5 @@ console.log(logins);
 console.log(addLogin(logins, 'viv'));
 console.log(logins);
 
+console.log('script done');
+
