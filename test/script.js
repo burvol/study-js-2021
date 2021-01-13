@@ -31,7 +31,14 @@ class Hamburger {
   }
 
   calculatePrice() {
-    return this.SIZES;
+    const sumPS = Hamburger.SIZES[this.size].price +
+                  Hamburger.STUFFINGS[this.stuffing].price;
+    
+    const sumT = this.toppings.reduce((acc, topping) => {
+      return acc + Hamburger.TOPPINGS[topping].price;
+    }, 0)
+
+    return sumT;
   }
   
   calculateCalories() {
@@ -89,4 +96,10 @@ Hamburger.TOPPINGS = {
 
 const hamburger = new Hamburger(Hamburger.SIZE_SMALL, Hamburger.STUFFING_CHEESE);
 
-console.log(hamburger.calculatePrice());
+// Добавка из приправы
+hamburger.addTopping(Hamburger.TOPPING_SPICE);
+hamburger.addTopping(Hamburger.TOPPING_SPICE);
+
+console.log('hamburger.calculatePrice(): ', hamburger.calculatePrice());
+
+console.log('hamburger.getToppings(): ', hamburger.getToppings());

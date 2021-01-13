@@ -214,22 +214,3 @@ hamburger.addTopping(Hamburger.TOPPING_SAUCE);
     логично в тот момент, когда это потребуется, а не заранее.
 */
 
-
-console.log(hamburger.getSize());
-console.log('hamburger.calculatePrice(): ', hamburger.calculatePrice());
-console.log('hamburger.SIZE_SMALL: ', hamburger.SIZE_SMALL);
-
-//test
-
-const test = {
-  SIZE_SMALL: {
-    price: 30,
-    calories: 50,
-  },
-  SIZE_LARGE: {
-    price: 50,
-    calories: 100,
-  },
-};
-
-console.log('-test- ', test.SIZE_SMALL.price)
