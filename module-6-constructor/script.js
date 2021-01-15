@@ -32,6 +32,112 @@ function Hamburger (size, stuffing) {
     this.size = size;
     this.stuffing = stuffing;
     this.toppings = [];
+
+    /* Добавить topping к гамбургеру. Можно добавить несколько topping, при условии, что они разные.
+    * @param {String} topping - Тип добавки
+    */
+
+    this.addTopping = function(topping) {
+        if(!this.toppings.includes(topping)) {
+            return this.toppings.push(topping);
+        }
+    };
+
+    /* Убрать topping, при условии, что она ранее была добавлена
+    * @param {String} topping - Тип добавки
+    */
+    this.removeTopping = function(topping) {
+        const index = this.toppings.indexOf(topping);  
+
+        if(index >= 0) {
+            this.toppings.splice(index, 1);
+        }
+    }
+
+    /**
+     * Получить список toppings
+     * @returns {Array} - Массив добавленных topping, содержит значения констант Hamburger.TOPPING_*
+     *
+     * Попробуйте сделать это геттером чтобы можно было обращаться как obj.toppings и нам вернет массив добавок
+     */  
+    Object.defineProperties(this, {
+        getToppings: {
+            get: function() {
+                    return this.toppings;
+                }
+        }
+    });
+
+    /**
+     * Узнать размер гамбургера
+     * @returns {String} - размер гамбургера
+     *
+     * Попробуйте сделать это геттером чтобы можно было обращаться как obj.size и нам вернет размер
+     */
+    Object.defineProperties(this, {
+        getSize: {
+            get: function() {
+                return this.size;
+            }
+        }
+    });
+
+    /**
+     * Узнать начинку гамбургера
+     * @returns {String} - начинка гамбургера
+     *
+     * Попробуйте сделать это геттером чтобы можно было обращаться как obj.stuffing и нам вернет начинку
+     */
+    Object.defineProperties(this, {
+        getStuffing: {
+            get: function() {
+                return this.stuffing;
+            }
+        }
+    })
+
+    /**
+     * Узнать цену гамбургера
+     * @returns {Number} - Цена в деньгах
+     *
+     * Попробуйте сделать это геттером чтобы можно было обращаться как obj.price и нам вернет сумму.
+     */
+    Object.defineProperties(this, {
+        calculatePrice: {
+            get: function() {
+                const sumPS = Hamburger.SIZES[this.size].price +
+                              Hamburger.STUFFINGS[this.stuffing].price;
+            
+                const sumT = this.toppings.reduce((acc, topping) => {
+                    return acc + Hamburger.TOPPINGS[topping].price;
+                }, 0)
+            
+                return sumPS + sumT;
+            }
+        }
+    })
+
+    /**
+     * Узнать калорийность
+     * @returns {Number} - Калорийность в калориях
+     *
+     * Попробуйте сделать это геттером чтобы можно было обращаться как obj.calories и нам вернет сумму.
+     */
+    Object.defineProperties(this, {
+        calculateCalories: {
+            get: function() {
+                const sumPS = Hamburger.SIZES[this.size].calories +
+                              Hamburger.STUFFINGS[this.stuffing].calories;
+                
+                const sumT = this.toppings.reduce((acc, topping) => {
+                    return acc + Hamburger.TOPPINGS[topping].calories;
+                }, 0)
+                
+                    return sumPS + sumT;
+            }
+        }
+    })
+
   }
 
 /* 
@@ -86,119 +192,6 @@ Hamburger.TOPPINGS = {
 
 };
 
-/**
- * Добавить topping к гамбургеру. Можно добавить несколько topping, при условии, что они разные.
- * @param {String} topping - Тип добавки
- */
-Hamburger.prototype.addTopping = function(topping) {
-    if(!this.toppings.includes(topping)) {
-        return this.toppings.push(topping);
-    }
-}
-
-/**
- * Убрать topping, при условии, что она ранее была добавлена
- * @param {String} topping - Тип добавки
- */
-Hamburger.prototype.removeTopping = function(topping) {
-    const index = this.toppings.indexOf(topping);  
-
-    if(index >= 0) {
-        this.toppings.splice(index, 1);
-    }
-}
-
-/**
- * Получить список toppings
- * @returns {Array} - Массив добавленных topping, содержит значения констант Hamburger.TOPPING_*
- *
- * Попробуйте сделать это геттером чтобы можно было обращаться как obj.toppings и нам вернет массив добавок
- */
-//======================================================================
-//ПРОБУВАВ ТАК ЗАПИСАТИ get.
-//======================================================================
-// Hamburger.prototype.getToppings = Object.defineProperties(this, {
-//         getToppings: {
-//             get: function() {
-//                 return this.toppings;
-//             }
-//         }
-// }) 
-
-Hamburger.prototype.getToppings = function() {
-    return this.toppings;
-}
-
-/**
- * Узнать размер гамбургера
- * @returns {String} - размер гамбургера
- *
- * Попробуйте сделать это геттером чтобы можно было обращаться как obj.size и нам вернет размер
- */
-Hamburger.prototype.getSize = function() {
-            return this.size;
-        }
-
-  /**
-   * Узнать начинку гамбургера
-   * @returns {String} - начинка гамбургера
-   *
-   * Попробуйте сделать это геттером чтобы можно было обращаться как obj.stuffing и нам вернет начинку
-   */
-Hamburger.prototype.getStuffing =  function() {
-            return this.stuffing;
-        }
-
-/**
- * Узнать цену гамбургера
- * @returns {Number} - Цена в деньгах
- *
- * Попробуйте сделать это геттером чтобы можно было обращаться как obj.price и нам вернет сумму.
- */
-Hamburger.prototype.calculatePrice = function() {
-            const sumPS = Hamburger.SIZES[this.size].price +
-                          Hamburger.STUFFINGS[this.stuffing].price;
-
-            const sumT = this.toppings.reduce((acc, topping) => {
-                return acc + Hamburger.TOPPINGS[topping].price;
-            }, 0)
-
-            return sumPS + sumT;
-        }
-
-/**
- * Узнать калорийность
- * @returns {Number} - Калорийность в калориях
- *
- * Попробуйте сделать это геттером чтобы можно было обращаться как obj.calories и нам вернет сумму.
- */
-Hamburger.prototype.calculateCalories = function() {
-            const sumPS = Hamburger.SIZES[this.size].calories +
-                          Hamburger.STUFFINGS[this.stuffing].calories;
-            
-            const sumT = this.toppings.reduce((acc, topping) => {
-                return acc + Hamburger.TOPPINGS[topping].calories;
-            }, 0)
-            
-                return sumPS + sumT;
-        }
-
-//===========================================================
-//calculate - створив але не використав. 
-//===========================================================
-
-// Hamburger.prototype.calculate = function(value) {
-//     const sumPS = Hamburger.SIZES[this.size][value] +
-//                   Hamburger.STUFFINGS[this.stuffing][value];
-    
-//     const sumT = this.toppings.reduce((acc, topping) => {
-//       return acc + Hamburger.TOPPINGS[topping][value];
-//     }, 0)
-
-//     return sumPS + sumT;
-//   }
-
-
 /* Вот как может выглядеть использование этого класса */
 
 // Маленький гамбургер с начинкой из сыра
@@ -208,25 +201,25 @@ const hamburger = new Hamburger(Hamburger.SIZE_SMALL, Hamburger.STUFFING_CHEESE)
 hamburger.addTopping(Hamburger.TOPPING_SPICE);
 
 // Спросим сколько там калорий
-console.log("Calories: ", hamburger.calculateCalories());
+console.log("Calories: ", hamburger.calculateCalories);
 
 // Сколько стоит?
-console.log("Price: ", hamburger.calculatePrice());
+console.log("Price: ", hamburger.calculatePrice);
 
 // Я тут передумал и решил добавить еще соус
 hamburger.addTopping(Hamburger.TOPPING_SAUCE);
 
 // А сколько теперь стоит? 
-console.log("Price with sauce: ", hamburger.calculatePrice());
+console.log("Price with sauce: ", hamburger.calculatePrice);
 
 // Проверить, большой ли гамбургер? 
-console.log("Is hamburger large: ", hamburger.getSize() === Hamburger.SIZE_LARGE); // -> false
+console.log("Is hamburger large: ", hamburger.getSize === Hamburger.SIZE_LARGE); // -> false
 
 // Убрать добавку
 hamburger.removeTopping(Hamburger.TOPPING_SPICE);
 
 // Смотрим сколько добавок
-console.log("Hamburger has %d toppings", hamburger.getToppings().length); // 1
+console.log("Hamburger has %d toppings", hamburger.getToppings.length); // 1
 
 /*
   🔔 Обратите внимание на такие моменты:
