@@ -122,7 +122,7 @@ Hamburger.prototype.removeTopping = function(topping) {
  *
  * Попробуйте сделать это геттером чтобы можно было обращаться как obj.toppings и нам вернет массив добавок
  */
-Object.defineProperties(Hamburger, {
+Hamburger.prototype.getToppings = Object.defineProperties(Hamburger, {
     getToppings: {
         get: function() {
             return this.toppings;
