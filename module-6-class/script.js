@@ -38,7 +38,7 @@ class Hamburger {
    * Добавить topping к гамбургеру. Можно добавить несколько topping, при условии, что они разные.
    * @param {String} topping - Тип добавки
    */
-  addTopping(topping) {
+  set addTopping(topping) {
     if(!this.toppings.includes(topping)) {
       return this.toppings.push(topping);
     }
@@ -48,7 +48,7 @@ class Hamburger {
    * Убрать topping, при условии, что она ранее была добавлена
    * @param {String} topping - Тип добавки
    */
-  removeTopping(topping) {
+  set removeTopping(topping) {
     const index = this.toppings.indexOf(topping);  
 
     if(index >= 0) {
@@ -62,8 +62,8 @@ class Hamburger {
    *
    * Попробуйте сделать это геттером чтобы можно было обращаться как obj.toppings и нам вернет массив добавок
    */
-  getToppings() {
-    return this.topping;
+  get getToppings() {
+    return this.toppings;
   }
 
 
@@ -73,7 +73,7 @@ class Hamburger {
    *
    * Попробуйте сделать это геттером чтобы можно было обращаться как obj.size и нам вернет размер
    */
-  getSize() {
+  get getSize() {
     return this.size;
   }
 
@@ -83,7 +83,7 @@ class Hamburger {
    *
    * Попробуйте сделать это геттером чтобы можно было обращаться как obj.stuffing и нам вернет начинку
    */
-  getStuffing() {
+  get getStuffing() {
     return this.stuffing;
   }
 
@@ -93,7 +93,7 @@ class Hamburger {
    *
    * Попробуйте сделать это геттером чтобы можно было обращаться как obj.price и нам вернет сумму.
    */
-  calculatePrice() {
+  get calculatePrice() {
     const sumPS = Hamburger.SIZES[this.size].price +
                   Hamburger.STUFFINGS[this.stuffing].price;
     
@@ -111,7 +111,7 @@ class Hamburger {
    *
    * Попробуйте сделать это геттером чтобы можно было обращаться как obj.calories и нам вернет сумму.
    */
-  calculateCalories() {
+  get calculateCalories() {
     const sumPS = Hamburger.SIZES[this.size].calories +
                   Hamburger.STUFFINGS[this.stuffing].calories;
     
@@ -122,16 +122,16 @@ class Hamburger {
     return sumPS + sumT;
   }
   
-  calculate(value) {
-    const sumPS = Hamburger.SIZES[this.size].value +
-                  Hamburger.STUFFINGS[this.stuffing].value;
+  // calculate(value) {
+  //   const sumPS = Hamburger.SIZES[this.size].value +
+  //                 Hamburger.STUFFINGS[this.stuffing].value;
     
-    const sumT = this.toppings.reduce((acc, topping) => {
-      return acc + Hamburger.TOPPINGS[topping].value;
-    }, 0)
+  //   const sumT = this.toppings.reduce((acc, topping) => {
+  //     return acc + Hamburger.TOPPINGS[topping].value;
+  //   }, 0)
 
-    return sumPS + sumT;
-  }
+  //   return sumPS + sumT;
+  // }
 
 }
 
@@ -193,16 +193,20 @@ Hamburger.TOPPINGS = {
 const hamburger = new Hamburger(Hamburger.SIZE_SMALL, Hamburger.STUFFING_CHEESE);
 
 // Добавка из приправы
-hamburger.addTopping(Hamburger.TOPPING_SPICE);
+hamburger.addTopping = Hamburger.TOPPING_SPICE;
+// hamburger.removeTopping = Hamburger.TOPPING_SPICE;
+console.log('hamburger.calculateCalories: ', hamburger.calculateCalories);
+console.log('hamburger.calculatePrice: ', hamburger.calculatePrice);
+console.log(hamburger.toppings);
 
 // Спросим сколько там калорий
-console.log("Calories: ", hamburger.calculateCalories());
+// console.log("Calories: ", hamburger.calculateCalories());
 
 // Сколько стоит?
 // console.log("Price: ", hamburger.calculatePrice());
 
 // Я тут передумал и решил добавить еще соус
-hamburger.addTopping(Hamburger.TOPPING_SAUCE);
+// hamburger.addTopping(Hamburger.TOPPING_SAUCE);
 
 // А сколько теперь стоит? 
 // console.log("Price with sauce: ", hamburger.calculatePrice());
