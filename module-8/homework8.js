@@ -75,7 +75,7 @@
 // });
 
 const galleryItems = [
-  { preview: 'img/preview-1.jpeg', fullview: 'img/fullwiew-1.jpg', alt: "alt text 1" },
+  { preview: 'img/preview-1.jpeg', fullview: 'img/fullview-1.jpg', alt: "alt text 1" },
   { preview: 'img/preview-2.jpeg', fullview: 'img/fullview-2.jpeg', alt: "alt text 2" },
   { preview: 'img/preview-3.jpeg', fullview: 'img/fullview-3.jpeg', alt: "alt text 3" },
   { preview: 'img/preview-4.jpeg', fullview: 'img/fullview-4.jpeg', alt: "alt text 4" },
@@ -83,29 +83,18 @@ const galleryItems = [
   { preview: 'img/preview-6.jpeg', fullview: 'img/fullview-6.jpeg', alt: "alt text 6" },
 ];
 
-/* <div class="fullview">
-        <!-- Если выбран первый элемент из preview -->
-        <img src="img/fullview-1.jpeg" alt="alt text 1">
-</div> */
-
 function createFullviewElement() {
     const fullview = document.createElement('div');
     fullview.classList.add('fullview');
 
     const image = document.createElement('img');
-    image.setAttribute('src', 'img/fullview-2.jpeg');
+    image.setAttribute('src', 'img/fullview-1.jpg');
     image.setAttribute('alt', 'alt text 1');
 
     fullview.append(image);
     
     return fullview;
 }
-
-{/* <ul class="preview">
-        <li><img src="img/preview-1.jpeg" data-fullview="img/fullview-1.jpeg" alt="alt text 1"></li>
-        <li><img src="img/preview-2.jpeg" data-fullview="https://placeimg.com/1000/400/any" alt="alt text 2"></li>
-        <li><img src="img/preview-3.jpeg" data-fullview="img/fullview-3.jpeg" alt="alt text 3"></li>
-</ul> */}
 
 function createPreviewElement() {
     const preview = document.createElement('ul');
@@ -138,14 +127,15 @@ const preview = createPreviewElement();
 
 imageGallery.append(fullview, preview);
 
-
-
 document.addEventListener('DOMContentLoaded', () => {
-  const previewList = document.querySelector('.preview');
+    const previewList = document.querySelector('.preview');
 
-  previewList.addEventListener('click', handlerFullview);
+    previewList.addEventListener('click', handlerFullview);
 
-  function handlerFullview(e) {
-    console.log(e);
-  }
+    function handlerFullview(e) {
+        const dataset = e.target.dataset.fullview;
+
+        const fullviewImageDOM = document.querySelector('.fullview img');
+        fullviewImageDOM.setAttribute('src', dataset);
+    }
 })
