@@ -83,44 +83,183 @@
 //     с 6 секунд, а не с 16. 
 
 const buttonStart = document.querySelector('button.js-start');
+const buttonStop = document.querySelector('button.js-stop');
+const buttonPause = document.querySelector('button.js-pause');
+const buttonContinue = document.querySelector('button.js-continue');
 const clockFace = document.querySelector('p.js-time');
 
-buttonStart.addEventListener('click', startTimer)
+const timer = {
+    timerId: null,
+    startTime: null,
+    isActive: false,
+    deltaTime: 0,
+    start() {
+        if(this.isActive) return;
 
+        this.isActive = true;
 
-let timerId = null;
-const date = Date.now();
-let isActiveStart = false;
-let isActivePause = false;
+        this.startTime = Date.now() - this.deltaTime;
 
-function startTimer() {
-    if(!isActiveStart) {
-        timerId = setInterval(() => {
-            const deltaTime = Date.now() - date;
-    
-            const minutes = Number.parseInt((deltaTime / 1000) / 60);
-            const seconds = Number.parseInt((deltaTime / 1000));
-            const milisicunds = Number.parseInt((deltaTime / 100));
+        this.timerId = setInterval(() => {
+            const currentTime = Date.now();
+            this.deltaTime = currentTime - this.startTime;
             
-            updateClockFace(`${minutes}:${seconds}:${milisicunds}`);
-    
+            updetClockFace(this.deltaTime);
+
         }, 100);
-
-        isActiveStart = true;
-        buttonStart.textContent = 'Pause';
-    } 
-    else if(isActivePause) {
-        buttonStart.textContent = 'Pause';
-
+    },
+    stop() {
+        clearInterval(this.timerId);
+        this.isActive = false;
+        this.deltaTime = 0;
+        updetClockFace(this.deltaTime);
+    },
+    pause() {
+        clearInterval(this.timerId);
+    },
+    continue() {
+       this.isActive = false;
+       this.start(); 
     }
-     else {
-        clearInterval(timerId);
-        buttonStart.textContent = 'Continue';
-        isActivePause = false;
-        isActiveStart = false;
-    }    
 }
 
-function updateClockFace(value) {
-    clockFace.textContent = value;
+function formatTime(ms) {
+    const date = new Date(ms);
+
+    const minutes = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes();
+    const seconds = date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds();
+    const milliseconds = String(date.getMilliseconds()).slice(0, 1);
+
+    return `${minutes}:${seconds}.${milliseconds}`;
 }
+
+function updetClockFace(value) {
+    const formattedTime = formatTime(value)
+    clockFace.textContent = formattedTime;
+}
+
+buttonStart.addEventListener('click', timer.start.bind(timer));
+buttonStop.addEventListener('click', timer.stop.bind(timer));
+buttonPause.addEventListener('click', timer.pause.bind(timer));
+buttonContinue.addEventListener('click', timer.continue.bind(timer));
+
+// let timerId = null;
+// const dateStart = Date.now();
+// let isActiveStart = false;
+// let isActivePause = false;
+// let dataPause = 0;
+
+// function startTimer() {
+//     if(!isActiveStart) {
+//         actionBtnStart(dataPause);
+//     } 
+//     else if(isActivePause) {
+//         actionBtnPause();
+//     }
+//      else {
+//         actionBtnContinue();
+//     }    
+// }
+
+// function updateClockFace(value) {
+//     clockFace.textContent = value;
+// }
+
+// function actionBtnStart(dataP) {
+
+//     timerId = setInterval(() => {
+//         const deltaTime = Date.now() - dateStart - dataP;
+//         dataPause = deltaTime;
+
+//         const minutes = Number.parseInt((deltaTime / 1000) / 60);
+//         const seconds = Number.parseInt((deltaTime / 1000));
+//         const milisicunds = Number.parseInt((deltaTime / 100));
+        
+//         updateClockFace(`${minutes}:${seconds}:${milisicunds}`);
+
+//         console.log('dataPause: ', dataP);
+
+//     }, 100);
+
+//     isActiveStart = true;
+//     buttonStart.textContent = 'Pause';
+// }
+
+// function actionBtnPause() {
+//     buttonStart.textContent = 'Pause';
+// }
+
+// function actionBtnContinue() {
+//     clearInterval(timerId);
+//     buttonStart.textContent = 'Continue';
+//     isActivePause = false;
+//     isActiveStart = false;
+// }
+
+
+//===============================================================================
+//===============================================================================
+//===============================================================================
+//ПЕРША СПРОБА НЕ ПРАЦЮЄ
+
+// const buttonStart = document.querySelector('button.js-start');
+// const clockFace = document.querySelector('p.js-time');
+
+// buttonStart.addEventListener('click', startTimer)
+
+
+// let timerId = null;
+// const dateStart = Date.now();
+// let isActiveStart = false;
+// let isActivePause = false;
+// let dataPause = 0;
+
+// function startTimer() {
+//     if(!isActiveStart) {
+//         actionBtnStart(dataPause);
+//     } 
+//     else if(isActivePause) {
+//         actionBtnPause();
+//     }
+//      else {
+//         actionBtnContinue();
+//     }    
+// }
+
+// function updateClockFace(value) {
+//     clockFace.textContent = value;
+// }
+
+// function actionBtnStart(dataP) {
+
+//     timerId = setInterval(() => {
+//         const deltaTime = Date.now() - dateStart - dataP;
+//         dataPause = deltaTime;
+
+//         const minutes = Number.parseInt((deltaTime / 1000) / 60);
+//         const seconds = Number.parseInt((deltaTime / 1000));
+//         const milisicunds = Number.parseInt((deltaTime / 100));
+        
+//         updateClockFace(`${minutes}:${seconds}:${milisicunds}`);
+
+//         console.log('dataPause: ', dataP);
+
+//     }, 100);
+
+//     isActiveStart = true;
+//     buttonStart.textContent = 'Pause';
+// }
+
+// function actionBtnPause() {
+//     buttonStart.textContent = 'Pause';
+// }
+
+// function actionBtnContinue() {
+//     clearInterval(timerId);
+//     buttonStart.textContent = 'Continue';
+//     isActivePause = false;
+//     isActiveStart = false;
+// }
+
+
+
