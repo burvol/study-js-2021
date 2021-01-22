@@ -1,7 +1,7 @@
 'use strict';
 
 const api = {
-    baseUrl: 'http://localhost:3000/notes',
+    baseUrl: 'http://localhost:3000/notes', 
     getAllNotes() {
         return fetch(this.baseUrl)
             .then(response => {

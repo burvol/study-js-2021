@@ -24,25 +24,25 @@
 const numbers = [];
 let indicator = true;
 
-// do{
+do{
 
-//     const inputUser = prompt('введите число');
+    const inputUser = prompt('введите число');
 
-//     if(inputUser === null) {
-//         indicator = false;
-//     }
+    if(inputUser === null) {
+        indicator = false;
+    }
 
-//     const inputUserNumber = Number(inputUser);
+    const inputUserNumber = Number(inputUser);
 
-//     if(inputUserNumber) {
-//         numbers.push(inputUserNumber);
-//     }
+    if(inputUserNumber) {
+        numbers.push(inputUserNumber);
+    }
 
-//     console.log('numbers in do ... while: ', numbers);
+    console.log('numbers in do ... while: ', numbers);
 
-// } while(indicator);
+} while(indicator);
 
-// console.log('numbers global: ', numbers);
+console.log('numbers global: ', numbers);
 
 let numbersSum = 0;
 
@@ -85,7 +85,7 @@ do{
 
     console.log(inputUserPassword);
 
-    if(inputUserPassword === null) {
+    if(!inputUserPassword) {
         break;
     }
 
