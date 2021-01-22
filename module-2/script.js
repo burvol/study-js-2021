@@ -28,7 +28,7 @@ do{
 
     const inputUser = prompt('введите число');
 
-    if(inputUser === null) {
+    if(!inputUser) {
         indicator = false;
     }
 
@@ -102,12 +102,8 @@ do{
 
     // Если закончились попытки, вывести alert с текстом "У вас закончились попытки, аккаунт заблокирован!"
 
-    console.log('in site', attempts);
-
     if(attempts === 0) {
         alert("У вас закончились попытки, аккаунт заблокирован!");
     }
 
 } while(attempts)
-
-console.log('outsite', attempts);
