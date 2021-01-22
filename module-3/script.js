@@ -48,10 +48,13 @@
 
 const logins = ['mango', 'poly', 'ajax'];
 
+const minNumber = 4;
+const maxNumber = 16;
+
 function checkLoginValidity(login) {
     let result = false;
 
-    if(login.length >= 4 && login.length <= 16 ) {
+    if(login.length >= minNumber && login.length <= maxNumber ) {
         result = true;
     }
 
