@@ -21,6 +21,10 @@
   Сделать минимальный графический интерфейс в виде панели с полями и кнопками. 
   А так же панелью для вывода результатов операций с бэкендом.
 */
+const state = {
+    selectedId: null,
+}
+
 const api = {
     baseUrl: 'http://localhost:3000/notes',
     getAllUsers() {
@@ -84,14 +88,13 @@ const api = {
     }
 }
 
-renderAllCards();
-
 const refs = selectRefs();
 
 refs.btnsBox.addEventListener('click', handleShowAllCardsClick);
 refs.noteEditor.addEventListener('submit', handleAddUserForm);
 refs.noteList.addEventListener('click', handleDeleteCardClick);
 refs.modal.addEventListener('click', handleUpdateCardClick);
+refs.searchForm.addEventListener('submit', handlerSearchIdSubmit);
 
 function handleShowAllCardsClick({target}) {
     if(target.nodeName !== 'BUTTON') return;
@@ -100,10 +103,10 @@ function handleShowAllCardsClick({target}) {
 
     switch(action) {
         case 'show':
-            refs.page.classList.add('note-show');
+            renderAllCards();
             break;
         case 'hide':
-            refs.page.classList.remove('note-show');
+            offRenderAllCards();
             break;
         default:
             console.log('На цю кнопку не має оброботчіка');
@@ -111,14 +114,20 @@ function handleShowAllCardsClick({target}) {
 }
 
 function renderAllCards() {
+    offRenderAllCards();
     api.getAllUsers()
         .then(cards => {
             const markup = cards.reduce((acc, card) => {
                 return acc + createNoteMarkup(card);
             }, '');
-
+            
             refs.noteList.insertAdjacentHTML('afterbegin', markup);
         })
+}
+
+function offRenderAllCards() {
+    const notes = document.querySelectorAll('.note');
+    notes.forEach(note => note.remove());
 }
 
 function handleAddUserForm(e) {
@@ -167,6 +176,7 @@ function deleteCardUser(target) {
 function updeteCardUser(target) {
 
     const card = target.closest('.note');
+    state.selectedId = card.dataset.id;
 
     const cardValueName = card.querySelector('.name span').textContent;
     const cardValueAge = card.querySelector('.age span').textContent;
@@ -176,9 +186,9 @@ function updeteCardUser(target) {
 
     modalToggle();
 
-    const name = refs.modalInputName.value;
-    const age = refs.modalInputAge.value;
-    const id = card.dataset.id;
+    // const name = refs.modalInputName.value;
+    // const age = refs.modalInputAge.value;
+    // const id = card.dataset.id;
 
     // api.updateUser({id, name, age})
     //     .then(() => modalToggle());
@@ -191,7 +201,7 @@ function handleUpdateCardClick({target}) {
 
     switch(action) {
         case 'save':
-            updeteCard(target);
+            updeteCard();
             break;
         case 'close':
             modalToggle();
@@ -201,9 +211,38 @@ function handleUpdateCardClick({target}) {
     }
 }
 
-function updeteCard(target) {
+function updeteCard() {
+    const name = refs.modalInputName.value;
+    const age = refs.modalInputAge.value;
+    const id = state.selectedId;
+
+    api.updateUser({id, name, age})
+        .then(() =>{ 
+            modalToggle();
+            offRenderAllCards();
+            renderAllCards();
+        });
 
     console.log('Click save!!!');
+}
+
+function handlerSearchIdSubmit(e) {
+    e.preventDefault();
+
+    offRenderAllCards();
+
+    const id = refs.searchFormInput.value;
+
+    api.getUserById(id)
+        .then(card => {
+            const markup = createNoteMarkup(card);
+
+            refs.noteList.insertAdjacentHTML('afterbegin', markup);
+        });
+
+    // console.log(searchInputValue);
+    // refs.searchFormInput.resete();
+    refs.searchForm.reset();
 }
 
 //Вертає розмітку
@@ -234,6 +273,8 @@ function selectRefs() {
     refs.modalInput = refs.modal.querySelector('.textarea');   
     refs.modalInputName = refs.modal.querySelector('.input-name');
     refs.modalInputAge = refs.modal.querySelector('.input-age'); 
+    refs.searchForm = document.querySelector('.search-form');
+    refs.searchFormInput = refs.searchForm.querySelector('input');
     
     return refs;
 }
