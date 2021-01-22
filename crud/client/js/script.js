@@ -153,7 +153,9 @@ function saveNote() {
 
             // updatedNoteContent.reset();
 
-            toggleModal()
+            toggleModal();
+
+            modalInput.value = '';
         })
         .catch(err => console.log(err));
 }
