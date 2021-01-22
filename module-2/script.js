@@ -24,31 +24,31 @@
 const numbers = [];
 let indicator = true;
 
-do{
+// do{
 
-    const inputUser = prompt('введите число');
+//     const inputUser = prompt('введите число');
 
-    if(!inputUser) {
-        indicator = false;
-    }
+//     if(!inputUser) {
+//         indicator = false;
+//     }
 
-    const inputUserNumber = Number(inputUser);
+//     const inputUserNumber = Number(inputUser);
 
-    if(inputUserNumber) {
-        numbers.push(inputUserNumber);
-    }
+//     if(inputUserNumber) {
+//         numbers.push(inputUserNumber);
+//     }
 
-    console.log('numbers in do ... while: ', numbers);
+//     console.log('numbers in do ... while: ', numbers);
 
-} while(indicator);
+// } while(indicator);
 
-console.log('numbers global: ', numbers);
+// console.log('numbers global: ', numbers);
 
-let numbersSum = 0;
+// let numbersSum = 0;
 
-for(const number of numbers) {
-    numbersSum += number;
-}
+// for(const number of numbers) {
+//     numbersSum += number;
+// }
 
 // console.log('numbersSum: ', numbersSum);
 
@@ -80,30 +80,59 @@ for(const number of numbers) {
 const passwords = ['mango', 'poly', 'ajax'];
 let attempts = 3;
 
-do{
-    const inputUserPassword = prompt('введите свой пароль');
+const form = document.querySelector('form');
+const formInput = form.querySelector('input');
+const title = form.querySelector('h2');
 
-    console.log(inputUserPassword);
 
-    if(!inputUserPassword) {
-        break;
-    }
+form.addEventListener('submit', handleUserInputSubmit);
 
-    if(passwords.includes(inputUserPassword)) {
+function handleUserInputSubmit(e) {
+    e.preventDefault();
 
+    const formInputValue = formInput.value;
+
+    if(formInputValue === '') {
+        alert('Ви ввели пусту строку. Введіть пароль!');
+    } else if(passwords.includes(formInputValue)) {
         alert('Добро пожаловать!');
-
-        break;
-    }
-
-    attempts -= 1;
-
-    alert(`Неверный пароль, у вас осталось ${attempts} попыток`);
-
-    // Если закончились попытки, вывести alert с текстом "У вас закончились попытки, аккаунт заблокирован!"
+    } else if(!passwords.includes(formInputValue)) {
+        attempts -=1;
+        alert(`Неверный пароль, у вас осталось ${attempts} попыток`);
+    } 
 
     if(attempts === 0) {
-        alert("У вас закончились попытки, аккаунт заблокирован!");
+        title.textContent = 'У вас закончились попытки, аккаунт заблокирован!';
     }
 
-} while(attempts)
+    form.reset();
+}
+
+
+// do{
+//     const inputUserPassword = prompt('введите свой пароль');
+
+//     console.log(inputUserPassword);
+
+//     if(!inputUserPassword) {
+//         break;
+//     }
+
+//     if(passwords.includes(inputUserPassword)) {
+
+//         alert('Добро пожаловать!');
+
+//         break;
+//     }
+
+//     attempts -= 1;
+
+//     alert(`Неверный пароль, у вас осталось ${attempts} попыток`);
+
+//     // Если закончились попытки, вывести alert с текстом "У вас закончились попытки, аккаунт заблокирован!"
+
+//     if(attempts === 0) {
+//         alert("У вас закончились попытки, аккаунт заблокирован!");
+//     }
+
+// } while(attempts)
