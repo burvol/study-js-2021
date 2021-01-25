@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+  
+    <template id="card-template">
+        <li class="card">
+            <h3>size: {{size}}</h3>
+            <h3>color: {{color}}</h3>
+            <h3>price: {{price}}</h3>
+            <h3>release_date: {{release_date}}</h3>
+            <h2>{{name}}</h2>
+            <img src="{{img}}" alt="image notebook">
+            <p>{{descr}}</p>
+        </li>
+    </template>
+
+    <form class="form js-form">
+        <section>
+          <h2>Screen size</h2>
+          <ul>
+            <li><label><input type="checkbox" name="size" value="13" checked> 13"</label></li>
+            <li><label><input type="checkbox" name="size" value="15"> 15"</label></li>
+            <li><label><input type="checkbox" name="size" value="17" checked> 17"</label></li>
+          </ul>
+        </section>
+        <section>
+          <h2>Color</h2>
+          <ul>
+            <li><label><input type="checkbox" name="color" value="white" > white</label></li>
+            <li><label><input type="checkbox" name="color" value="gray" checked> gray</label></li>
+            <li><label><input type="checkbox" name="color" value="black"> black</label></li>
+          </ul>
+        </section>
+        <section>
+          <h2>Release date</h2>
+          <ul>
+            <li><label><input type="checkbox" name="release_date" value="2015"> 2015</label></li>
+            <li><label><input type="checkbox" name="release_date" value="2016" checked> 2016</label></li>
+            <li><label><input type="checkbox" name="release_date" value="2017"> 2017</label></li>
+          </ul>
+        </section>
+        <button type="submit">Filter</button>
+        <button type="reset">Clear</button>
+      </form>
+
+      <ul class="cards"></ul>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.6/handlebars.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
