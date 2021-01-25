@@ -85,15 +85,18 @@ const order = {
     }
 
     this.countTotalPrice = function(order) {
-        const products = this.productsDatabase;
+        let productsDatabase = this.productsDatabase;
+        let total = 0;
 
-        this.totalPrice = Object.keys(products).reduce((acc, product) => {
-            if(order.hasOwnProperty(product)) {
-                return acc + order[product] * products[product];
-            } else {
-                return acc;
+        for(const productUser in order) {
+            for(const productData in productsDatabase) {
+                if(productUser === productData) {
+                    total += order[productUser] * productsDatabase[productData];
+                }
             }
-        }, 0);        
+        }
+
+        this.totalPrice = total;
     }
 
     this.getCustomerMoney = function(value) {
@@ -136,7 +139,7 @@ const mango = new Cashier('Mango', products);
 // mango.countTotalPrice(order);
 
 // // Проверям что посчитали
-// console.log(mango.totalPrice); // 110
+// console.log('mango.totalPrice: ', mango.totalPrice); // 110
 
 // // Вызываем getCustomerMoney для запроса денег покупателя
 // mango.getCustomerMoney(120);
@@ -174,6 +177,9 @@ class CashierClass {
     constructor(name, productsDatabase) {
         this.name = name;
         this.productsDatabase = productsDatabase;
+        this.totalPrice = 0;
+        this.customerMoney = 0;
+        this.changeAmount = 0;
     }
 
     greet() {
@@ -195,15 +201,18 @@ class CashierClass {
     }
 
     countTotalPrice(order) {
-        const products = this.productsDatabase;
+        let productsDatabase = this.productsDatabase;
+        let total = 0;
 
-        this.totalPrice = Object.keys(products).reduce((acc, product) => {
-            if(order.hasOwnProperty(product)) {
-                return acc + order[product] * products[product];
-            } else {
-                return acc;
+        for(const productUser in order) {
+            for(const productData in productsDatabase) {
+                if(productUser === productData) {
+                    total += order[productUser] * productsDatabase[productData];
+                }
             }
-        }, 0);        
+        }
+
+        this.totalPrice = total;
     }
 
     getCustomerMoney(value) {
@@ -247,10 +256,10 @@ const ajax = new CashierClass('Ajax', products);
 // Вызываем метод countTotalPrice для подсчета общей суммы
 // // передавая order - список покупок пользователя
 
-// ajax.countTotalPrice(order1);
+ajax.countTotalPrice('order1: ', order1);
 
 // // Проверям что посчитали
-// console.log(ajax.totalPrice); // 130
+console.log('ajax.totalPrice: ', ajax.totalPrice); // 130
 
 // // Вызываем getCustomerMoney для запроса денег покупателя
 // ajax.getCustomerMoney(200);
