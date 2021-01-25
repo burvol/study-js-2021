@@ -38,8 +38,10 @@ function Hamburger (size, stuffing) {
     */
 
     this.addTopping = function(topping) {
-        if(!this.toppings.includes(topping)) {
-            return this.toppings.push(topping);
+        const includes = this.toppings.includes(topping);
+
+        if(!includes) {
+            this.toppings.push(topping);
         }
     };
 
