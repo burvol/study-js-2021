@@ -58,7 +58,7 @@ const order = {
     cheese: 1
   };
 
-  const Cashier = function(name, productsDatabase, ) {
+  const Cashier = function(name, productsDatabase ) {
 
     this.name = name;
     this.productsDatabase = productsDatabase;
@@ -121,48 +121,163 @@ const order = {
 const mango = new Cashier('Mango', products);
 
 // // Проверяем исходные значения полей
-console.log(mango.name); // Mango
-console.log(mango.productsDatabase); // ссылка на базу данных продуктов (объект products)
-console.log(mango.totalPrice); // 0
-console.log(mango.customerMoney); // 0
-console.log(mango.changeAmount); // 0
+// console.log(mango.name); // Mango
+// console.log(mango.productsDatabase); // ссылка на базу данных продуктов (объект products)
+// console.log(mango.totalPrice); // 0
+// console.log(mango.customerMoney); // 0
+// console.log(mango.changeAmount); // 0
 
 // // Вызываем метод greet
-mango.greet(); // Здравствуйте, вас обслуживает Mango
+// mango.greet(); // Здравствуйте, вас обслуживает Mango
 
 // // Вызываем метод countTotalPrice для подсчета общей суммы
 // // передавая order - список покупок пользователя
 
-mango.countTotalPrice(order);
+// mango.countTotalPrice(order);
 
 // // Проверям что посчитали
-console.log(mango.totalPrice); // 110
+// console.log(mango.totalPrice); // 110
 
 // // Вызываем getCustomerMoney для запроса денег покупателя
-mango.getCustomerMoney(120);
+// mango.getCustomerMoney(120);
 
 // // Проверяем что в поле с деньгами пользователя
-console.log(mango.customerMoney); // 300
+// console.log(mango.customerMoney); // 300
 
 // // Вызываем countChange для подсчета сдачи
-const result = mango.countChange();
+// const result = mango.countChange();
 
 // // Проверяем что нам вернул countChange
-console.log(result); // 190
+// console.log(result); // 190
 
 // // Проверяем результат подсчета денег
-if (result !== null) {
+// if (result !== null) {
   // При успешном обслуживании вызываем метод onSuccess
-  mango.onSuccess(); // Спасибо за покупку, ваша сдача 190
-} else {
+//   mango.onSuccess(); // Спасибо за покупку, ваша сдача 190
+// } else {
   // При неудачном обслуживании вызываем метод onError   
-  mango.onError(); // Очень жаль, вам не хватает денег на покупки
-}
+//   mango.onError(); // Очень жаль, вам не хватает денег на покупки
+// }
 
 // Вызываем reset при любом исходе обслуживания
-mango.reset();
+// mango.reset();
 
 // // Проверяем значения полей после reset
 // console.log(mango.totalPrice); // 0
 // console.log(mango.customerMoney); // 0
 // console.log(mango.changeAmount); // 0
+
+//===============================================================================
+// Реалізація через class
+
+class CashierClass {
+    constructor(name, productsDatabase) {
+        this.name = name;
+        this.productsDatabase = productsDatabase;
+    }
+
+    greet() {
+        console.log(`Здравствуйте, вас обслуживает ${this.name}`);
+    }
+
+    onSuccess() {
+        const result = this.customerMoney - this.totalPrice > 0;
+
+        if(result) {
+            console.log(`Спасибо за покупку, ваша сдача ${this.changeAmount}`);
+        } else {
+            console.log('Спасибо за покупку');
+        }
+    }
+
+    onError() {
+        console.log('Очень жаль, вам не хватает денег на покупки');
+    }
+
+    countTotalPrice(order) {
+        const products = this.productsDatabase;
+
+        this.totalPrice = Object.keys(products).reduce((acc, product) => {
+            if(order.hasOwnProperty(product)) {
+                return acc + order[product] * products[product];
+            } else {
+                return acc;
+            }
+        }, 0);        
+    }
+
+    getCustomerMoney(value) {
+        this.customerMoney = value;
+    }
+
+    countChange() {
+        if(this.customerMoney >= this.totalPrice) {
+            return this.changeAmount = this.customerMoney - this.totalPrice;
+        } else {
+            return null;
+        }
+    }
+
+    reset() {
+        this.totalPrice = 0;
+        this.customerMoney = 0;
+        this.changeAmount = 0;
+    }    
+}
+
+const order1 = {
+    bread: 3,
+    milk: 4,
+    cheese: 1
+  };
+
+/* Пример использования */
+const ajax = new CashierClass('Ajax', products);
+
+// // Проверяем исходные значения полей
+// console.log(ajax.name); // ajax
+// console.log(ajax.productsDatabase); // ссылка на базу данных продуктов (объект products)
+// console.log(ajax.totalPrice); // 0
+// console.log(ajax.customerMoney); // 0
+// console.log(ajax.changeAmount); // 0
+
+// // Вызываем метод greet
+// ajax.greet(); // Здравствуйте, вас обслуживает ajax
+
+// Вызываем метод countTotalPrice для подсчета общей суммы
+// // передавая order - список покупок пользователя
+
+// ajax.countTotalPrice(order1);
+
+// // Проверям что посчитали
+// console.log(ajax.totalPrice); // 130
+
+// // Вызываем getCustomerMoney для запроса денег покупателя
+// ajax.getCustomerMoney(200);
+
+// // Проверяем что в поле с деньгами пользователя
+// console.log(ajax.customerMoney); // 300
+
+// // Вызываем countChange для подсчета сдачи
+// const result = ajax.countChange();
+
+// // Проверяем что нам вернул countChange
+// console.log(result); // 190
+
+// // Проверяем результат подсчета денег
+// if (result !== null) {
+// //   При успешном обслуживании вызываем метод onSuccess
+//   ajax.onSuccess(); // Спасибо за покупку, ваша сдача 190
+// } else {
+// //   При неудачном обслуживании вызываем метод onError   
+//   ajax.onError(); // Очень жаль, вам не хватает денег на покупки
+// }
+
+// Вызываем reset при любом исходе обслуживания
+// ajax.reset();
+
+// // Проверяем значения полей после reset
+// console.log(ajax.totalPrice); // 0
+// console.log(ajax.customerMoney); // 0
+// console.log(ajax.changeAmount); // 0
+
