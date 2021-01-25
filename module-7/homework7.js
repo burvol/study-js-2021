@@ -27,7 +27,7 @@
           <p class="movie__rating">Rating: 8.6</p>
         </div>
 </div>
-*/ 
+*/
 
 function createCard() {
     const image = createImage();
@@ -75,10 +75,10 @@ function createCardBody() {
     return cardBody;
 }
 
-const card = createCard();
 const root = document.querySelector('.root');
+const card = createCard();
 
-// root.append(card);
+root.append(card);
 
 //======================================================================================
 //------------------------------------------------------------------------------
@@ -170,4 +170,11 @@ function createPostCards(posts) {
 }
 
 const cardsPost = createPostCards(posts);
-root.append(...cardsPost);
+
+function paintCards(cards) {
+  const root = document.querySelector('.root');
+  const cardsPost = createPostCards(cards);
+  root.append(...cardsPost);
+}
+
+paintCards(posts);
