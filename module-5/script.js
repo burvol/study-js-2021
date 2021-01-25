@@ -103,26 +103,21 @@ const users = [
    * Получить массив имен (поле name) всех пользователей
    */
   // [ 'Moore Hensley', 'Sharlene Bush', 'Ross Vazquez', 'Elma Head', 'Carey Barr', 'Blackburn Dotson', 'Sheree Anthony' ]
-  const getAllUserName = function(arr) {
-    return arr.map(item => item.name);
-  }
+ const allUserName = () => users.map(user => user.name);
 
-//   console.log(getAllUserName(users));
                               
   /**
    * Получить массив объектов пользователей по цвету глаз (поле eyeColor)
    */
-  const getAllUsersEyeColor = function(arr, color) {
-    return arr.filter(item => item.eyeColor === color);
-  }
 
-//   console.log(getAllUsersEyeColor(users, 'blue'));
-  
+const getAllUserEyeColor = (arr, eyeColor) => arr.filter(user => user.eyeColor === eyeColor);
+
                                               
   /**
    * Получить массив имен пользователей по полу (поле gender)
    */
-  const getAllUsersGendet = function(arr, gender) {
+
+  const getAllUsersGendet = (arr, gender) => {
       return arr.filter(item => item.gender === gender)
         .map(item => item.name);
   }
@@ -131,49 +126,41 @@ const users = [
   
   /**
    * Получить массив только неактивных пользователей (поле isActive)
+   * 
    */
-  const getAllUsersNotActive = function(arr) {
-      return arr.filter(item => item.isActive === false);
-  }
+const getAllUsersNotActive = (arr) => arr.filter(user => !user.isActive);
 
-//   console.log(getAllUsersNotActive(users));
-                                   
+// console.log(getAllUsersNotActive(users));
+
   /**
    * Получить пользоваля (не массив) по email (поле email, он уникальный)
    */
-  const getUserId = function(arr, email) {
-      return arr.find(item => item.email === email);
-  }
-  
-//   console.log(getUserId(users, 'shereeanthony@kog.com'));
-  
+const getUserByEmail = (arr, email) => arr.find(user => user.email === email).name;
+
+// console.log(getUserByEmail(users, 'shereeanthony@kog.com'));
+
   /**
    * Получить массив пользователей попадающих в возрастную категорию от min до max лет (поле age)
    */
-  const getAllUsersByAge = function(arr, min, max) {
-      return arr.filter(item => item.age > min && item.age < max);
-  }
 
-//   console.log(getAllUsersByAge(users, 10, 25));
-                                              
+  const getAllUsersByAge = (arr, min, max) => arr.filter(user => user.age > min && user.age < max);
+
+  // console.log(getAllUsersByAge(users, 10, 30));
+
   /**
    * Получить общую сумму баланса (поле balance) всех пользователей
    */
-  const getTotalBalance = function(arr) {
-      return arr.reduce((acc, item) => {
-          return acc += item.balance;
-      }, 0);
-  }
 
-//   console.log(getTotalBalance(users));                               
+   const getUsersTotalBalans = (arr) => arr.reduce((acc, user) => acc + user.balance, 0);
+
+  //  console.log(getUsersTotalBalans(users));
                                   
   /**
    * Массив имен всех пользователей у которых есть друг с указанным именем
    */
 
-const getUsersNameForFriends = function(arr, friendName) {
-    return arr.filter(item => item.friends.includes(friendName))
-        .map(item => item.name);
-}
-  
-// console.log(getUsersNameForFriends(users, 'Sharron Pace'));
+   const getUsersNameForFriend = (arr, name) => arr.filter(user => user.friends
+      .find(value => value === name))
+      .map(user => user.name);
+
+  //  console.log(getUsersNameForFriend(users, 'Sharron Pace'));
