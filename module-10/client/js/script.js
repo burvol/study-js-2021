@@ -26,7 +26,7 @@ const state = {
 }
 
 const api = {
-    baseUrl: 'http://localhost:3000/notes',
+    baseUrl: 'http://localhost:3000/notes/',
     getAllUsers() {
         return fetch(this.baseUrl)
         .then(response => {
@@ -37,7 +37,10 @@ const api = {
         .catch(err => console.log(err));
     },
     getUserById(id) {
-        return fetch(`${this.baseUrl}/${id}`)
+        return fetch(`${this.baseUrl}${id}`,{
+            method: 'GET',
+            headers: { 'Content-type': 'application/json; charset=UTF-8' },
+        })
         .then(response => {
             if(response.ok) return response.json();
 
@@ -61,7 +64,7 @@ const api = {
             .catch(err => console.log(err));
     },
     removeUser(id) {
-        return fetch(`${this.baseUrl}/${id}`,{
+        return fetch(`${this.baseUrl}${id}`,{
             method: 'DELETE',
         })
         .then(response => {
@@ -72,7 +75,7 @@ const api = {
             .catch(err => console.log(err));
     },
     updateUser({name, id, age}) {
-        return fetch(`${this.baseUrl}/${id}`, {
+        return fetch(`${this.baseUrl}${id}`, {
             method: 'PATCH',
             body: JSON.stringify({name, age}),
             headers: {
@@ -106,7 +109,7 @@ function handleShowAllCardsClick({target}) {
             renderAllCards();
             break;
         case 'hide':
-            offRenderAllCards();
+            removeAllCards();
             break;
         default:
             console.log('На цю кнопку не має оброботчіка');
@@ -114,7 +117,7 @@ function handleShowAllCardsClick({target}) {
 }
 
 function renderAllCards() {
-    offRenderAllCards();
+    removeAllCards();
     api.getAllUsers()
         .then(cards => {
             const markup = cards.reduce((acc, card) => {
@@ -125,7 +128,7 @@ function renderAllCards() {
         })
 }
 
-function offRenderAllCards() {
+function removeAllCards() {
     const notes = document.querySelectorAll('.note');
     notes.forEach(note => note.remove());
 }
@@ -185,13 +188,6 @@ function updeteCardUser(target) {
     refs.modalInputAge.value = cardValueAge;
 
     modalToggle();
-
-    // const name = refs.modalInputName.value;
-    // const age = refs.modalInputAge.value;
-    // const id = card.dataset.id;
-
-    // api.updateUser({id, name, age})
-    //     .then(() => modalToggle());
 }
 
 function handleUpdateCardClick({target}) {
@@ -219,7 +215,7 @@ function updeteCard() {
     api.updateUser({id, name, age})
         .then(() =>{ 
             modalToggle();
-            offRenderAllCards();
+            removeAllCards();
             renderAllCards();
         });
 
@@ -229,7 +225,7 @@ function updeteCard() {
 function handlerSearchIdSubmit(e) {
     e.preventDefault();
 
-    offRenderAllCards();
+    removeAllCards();
 
     const id = refs.searchFormInput.value;
 
@@ -240,12 +236,9 @@ function handlerSearchIdSubmit(e) {
             refs.noteList.insertAdjacentHTML('afterbegin', markup);
         });
 
-    // console.log(searchInputValue);
-    // refs.searchFormInput.resete();
     refs.searchForm.reset();
 }
 
-//Вертає розмітку
 function createNoteMarkup({ id, name, age }) {
     return `
     <li class="note" data-id="${id}">
@@ -262,7 +255,6 @@ function createNoteMarkup({ id, name, age }) {
 function selectRefs() {
     const refs = {};
 
-    refs.page = document.querySelector('.page');
     refs.btnsBox = document.querySelector('.buttons-box');
     refs.noteEditor = document.querySelector('.note-editor');
     refs.noteEditorInputName = refs.noteEditor.querySelector('.input-name');
@@ -270,7 +262,6 @@ function selectRefs() {
     refs.noteList = document.querySelector('.note-list');
     refs.modalBackdrop = document.querySelector('.backdrop');
     refs.modal = document.querySelector('.modal');
-    refs.modalInput = refs.modal.querySelector('.textarea');   
     refs.modalInputName = refs.modal.querySelector('.input-name');
     refs.modalInputAge = refs.modal.querySelector('.input-age'); 
     refs.searchForm = document.querySelector('.search-form');
