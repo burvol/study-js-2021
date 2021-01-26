@@ -84,8 +84,6 @@
 
 const buttonStart = document.querySelector('button.js-start');
 const buttonStop = document.querySelector('button.js-stop');
-const buttonPause = document.querySelector('button.js-pause');
-const buttonContinue = document.querySelector('button.js-continue');
 const clockFace = document.querySelector('p.js-time');
 
 const timer = {
@@ -93,11 +91,11 @@ const timer = {
     startTime: null,
     isActive: false,
     deltaTime: 0,
+
     start() {
         if(this.isActive) return;
 
         this.isActive = true;
-
         this.startTime = Date.now() - this.deltaTime;
 
         this.timerId = setInterval(() => {
@@ -108,158 +106,56 @@ const timer = {
 
         }, 100);
     },
+
     stop() {
         clearInterval(this.timerId);
         this.isActive = false;
+    },
+
+    reset() {
+        this.stop();
         this.deltaTime = 0;
         updetClockFace(this.deltaTime);
     },
-    pause() {
-        clearInterval(this.timerId);
-    },
-    continue() {
-       this.isActive = false;
-       this.start(); 
-    }
+}
+
+buttonStart.addEventListener('click', handleBtnStartClick);
+buttonStop.addEventListener('click', handleBtnStopClick);
+
+function handleBtnStartClick({target}) {
+
+  if(!timer.isActive) {
+    timer.start();
+    target.textContent = 'Pause';
+  } else {
+    timer.stop();
+    target.textContent = 'Continue';
+  }
+}
+
+function handleBtnStopClick() {
+  timer.reset();
+  buttonStart.textContent = 'Start';
 }
 
 function formatTime(ms) {
     const date = new Date(ms);
 
-    const minutes = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes();
-    const seconds = date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds();
+    const minutes = addZero(date.getMinutes());
+    const seconds = addZero(date.getSeconds());
     const milliseconds = String(date.getMilliseconds()).slice(0, 1);
 
     return `${minutes}:${seconds}.${milliseconds}`;
+}
+
+function addZero(value) {
+  return value < 10 ? '0' + value : value;
 }
 
 function updetClockFace(value) {
     const formattedTime = formatTime(value)
     clockFace.textContent = formattedTime;
 }
-
-buttonStart.addEventListener('click', timer.start.bind(timer));
-buttonStop.addEventListener('click', timer.stop.bind(timer));
-buttonPause.addEventListener('click', timer.pause.bind(timer));
-buttonContinue.addEventListener('click', timer.continue.bind(timer));
-
-// let timerId = null;
-// const dateStart = Date.now();
-// let isActiveStart = false;
-// let isActivePause = false;
-// let dataPause = 0;
-
-// function startTimer() {
-//     if(!isActiveStart) {
-//         actionBtnStart(dataPause);
-//     } 
-//     else if(isActivePause) {
-//         actionBtnPause();
-//     }
-//      else {
-//         actionBtnContinue();
-//     }    
-// }
-
-// function updateClockFace(value) {
-//     clockFace.textContent = value;
-// }
-
-// function actionBtnStart(dataP) {
-
-//     timerId = setInterval(() => {
-//         const deltaTime = Date.now() - dateStart - dataP;
-//         dataPause = deltaTime;
-
-//         const minutes = Number.parseInt((deltaTime / 1000) / 60);
-//         const seconds = Number.parseInt((deltaTime / 1000));
-//         const milisicunds = Number.parseInt((deltaTime / 100));
-        
-//         updateClockFace(`${minutes}:${seconds}:${milisicunds}`);
-
-//         console.log('dataPause: ', dataP);
-
-//     }, 100);
-
-//     isActiveStart = true;
-//     buttonStart.textContent = 'Pause';
-// }
-
-// function actionBtnPause() {
-//     buttonStart.textContent = 'Pause';
-// }
-
-// function actionBtnContinue() {
-//     clearInterval(timerId);
-//     buttonStart.textContent = 'Continue';
-//     isActivePause = false;
-//     isActiveStart = false;
-// }
-
-
-//===============================================================================
-//===============================================================================
-//===============================================================================
-//ПЕРША СПРОБА НЕ ПРАЦЮЄ
-
-// const buttonStart = document.querySelector('button.js-start');
-// const clockFace = document.querySelector('p.js-time');
-
-// buttonStart.addEventListener('click', startTimer)
-
-
-// let timerId = null;
-// const dateStart = Date.now();
-// let isActiveStart = false;
-// let isActivePause = false;
-// let dataPause = 0;
-
-// function startTimer() {
-//     if(!isActiveStart) {
-//         actionBtnStart(dataPause);
-//     } 
-//     else if(isActivePause) {
-//         actionBtnPause();
-//     }
-//      else {
-//         actionBtnContinue();
-//     }    
-// }
-
-// function updateClockFace(value) {
-//     clockFace.textContent = value;
-// }
-
-// function actionBtnStart(dataP) {
-
-//     timerId = setInterval(() => {
-//         const deltaTime = Date.now() - dateStart - dataP;
-//         dataPause = deltaTime;
-
-//         const minutes = Number.parseInt((deltaTime / 1000) / 60);
-//         const seconds = Number.parseInt((deltaTime / 1000));
-//         const milisicunds = Number.parseInt((deltaTime / 100));
-        
-//         updateClockFace(`${minutes}:${seconds}:${milisicunds}`);
-
-//         console.log('dataPause: ', dataP);
-
-//     }, 100);
-
-//     isActiveStart = true;
-//     buttonStart.textContent = 'Pause';
-// }
-
-// function actionBtnPause() {
-//     buttonStart.textContent = 'Pause';
-// }
-
-// function actionBtnContinue() {
-//     clearInterval(timerId);
-//     buttonStart.textContent = 'Continue';
-//     isActivePause = false;
-//     isActiveStart = false;
-// }
 
 
 

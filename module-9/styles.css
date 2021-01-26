@@ -57,4 +57,7 @@ body {
   .active {
 	background-color: #2196F3;
   }
-  
+
+  .js-time {
+	  font-size: 46px;
+  }
