@@ -118,6 +118,8 @@ const laptops = [
 ];
 
 const list = document.querySelector('.cards');
+
+//??? Як воно працює? Адже в list по дефолту нічого немає поки не відрендили картки
 const cards = list.querySelectorAll('li.card');
 const form = document.querySelector('.form.js-form');
 

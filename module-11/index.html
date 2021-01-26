@@ -6,18 +6,6 @@
     <title>Document</title>
 </head>
 <body>
-  
-    <template id="card-template">
-        <li class="card">
-            <h3>size: {{size}}</h3>
-            <h3>color: {{color}}</h3>
-            <h3>price: {{price}}</h3>
-            <h3>release_date: {{release_date}}</h3>
-            <h2>{{name}}</h2>
-            <img src="{{img}}" alt="image notebook">
-            <p>{{descr}}</p>
-        </li>
-    </template>
 
     <form class="form js-form">
         <section>
@@ -50,6 +38,17 @@
 
       <ul class="cards"></ul>
 
+      <template id="card-template">
+        <li class="card">
+            <h3>size: {{size}}</h3>
+            <h3>color: {{color}}</h3>
+            <h3>price: {{price}}</h3>
+            <h3>release_date: {{release_date}}</h3>
+            <h2>{{name}}</h2>
+            <img src="{{img}}" alt="image notebook">
+            <p>{{descr}}</p>
+        </li>
+    </template>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.6/handlebars.min.js"></script>
     <script src="script.js"></script>
 </body>
