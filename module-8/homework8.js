@@ -86,14 +86,18 @@ const galleryItems = [
 function createFullviewElement() {
     const fullview = document.createElement('div');
     fullview.classList.add('fullview');
+    const image = createFullviewImageElement();
+    fullview.append(image);
+    
+    return fullview;
+}
 
+function createFullviewImageElement() {
     const image = document.createElement('img');
     image.setAttribute('src', 'img/fullview-1.jpg');
     image.setAttribute('alt', 'alt text 1');
 
-    fullview.append(image);
-    
-    return fullview;
+    return image;
 }
 
 function createPreviewElement() {
@@ -111,14 +115,42 @@ function createPreviewElement() {
 
 function createItemElement({preview, alt, fullview} = obj) {
     const item = document.createElement('li');
+    const image = createImageElementForItem(preview, alt, fullview)
+
+    item.append(image);
+    
+    return item;
+}
+
+function createImageElementForItem(preview, alt, fullview) {
     const image = document.createElement('img');
     image.setAttribute('src', preview);
     image.setAttribute('data-fullview', fullview);
     image.setAttribute('alt', alt);
 
-    item.append(image);
-    
-    return item;
+    return image;
+}
+
+function colorRandom() {
+  const r = Math.floor(Math.random() * 255);
+  const g = Math.floor(Math.random() * 255);
+  const b = Math.floor(Math.random() * 255);
+  
+  return `rgb(${r}, ${g}, ${b})`;
+}
+
+function hoverElements() {
+  const allContainerImg = document.querySelectorAll('.preview li');
+
+  allContainerImg.forEach(item => {
+    item.addEventListener('mouseover', () => {
+      item.style.border = `10px solid ${colorRandom()}`;
+    });
+
+    item.addEventListener('mouseout', () => {
+      item.style.border = 'none';
+    });
+  })
 }
 
 const imageGallery = document.querySelector('.image-gallery');
@@ -132,10 +164,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     previewList.addEventListener('click', handlerFullview);
 
-    function handlerFullview(e) {
-        const dataset = e.target.dataset.fullview;
+    function handlerFullview({target}) {
+        const dataset = target.dataset.fullview;
 
         const fullviewImageDOM = document.querySelector('.fullview img');
         fullviewImageDOM.setAttribute('src', dataset);
     }
 })
+
+hoverElements();
+
