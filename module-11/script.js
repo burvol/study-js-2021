@@ -203,16 +203,15 @@ function filterSearchArrayValue(obj) {
     return arrayValues;
 }
 
-//проходимось помасиву і данні масиву використовуємо для пошуку в обєкту з нашими ноутами(laptops)
+//проходимось по масиву і данні масиву використовуємо для пошуку в обєкту з нашими ноутами(laptops)
 //userArray - один з масивів наших значень з checked
 //property - імя інпута яке будимо використовувати в порівнянні
 //sourceArray - база данних всіх існуючих карточок
 //filteredArray - витягнули всі картки які проходять фільтрацію
 //formedArray - помістили наші картки в масив і повертаємо масив з функції
+
 function filteredProperty(userArray, property, sourceArray){
-    //в константу запишиться всі картки з laptops які пройшли перевірку
     const result = userArray.reduce((acc, prop) => {
-        //отримаємо масив карток які пройшли перевірку
         const filteredArray = sourceArray.filter(obj => obj[property] === prop)
         const  formedArray = acc.concat(filteredArray)
 
